@@ -17,7 +17,8 @@ This repository contains code and guides for setting up multi-node inference (te
 
 You need two Macs connected via Thunderbolt. Additional requirements are detailed [here](https://ml-explore.github.io/mlx/build/html/usage/launching_distributed.html#setting-up-remote-hosts). Key requirements:
 - Bidirectional password-less SSH connections
-- Static IP addresses for the Thunderbolt interface (check with `ifconfig bridge0`)
+- Static IP addresses for the Thunderbolt interface (check with `ifconfig bridge0`). Note: this change does not persist through system restarts
+- Adjust `iogpu.wired_limit_mb` and `iogpu.wired_lwm_mb` or inference will be extremely slow. Run the script at https://github.com/water-vapor/exo/blob/main/configure_mlx.sh and adapt values as needed. Note: these changes do not persist through system restarts
 
 ## Weight Preparation
 
@@ -97,6 +98,11 @@ SOURCE_DIR="$(pwd)"
 TARGET_HOST="<other_machine_host_name>"
 rsync -av --no-dirs --include="*.py" --exclude="*" "$SOURCE_DIR"/ "$TARGET_HOST:$SOURCE_DIR"/
 ```
+
+## Troubleshooting
+
+1. If inference speed is extremely slow, check if you have changed `iogpu.wired_limit_mb` and `iogpu.wired_lwm_mb`
+2. If you encounter Thunderbolt disconnections and inactive states, set the Macs to never sleep
 
 ## Acknowledgment
 
