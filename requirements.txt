@@ -1,0 +1,4 @@
+mlx>=0.26.0
+mlx-lm @ git+https://github.com/ml-explore/mlx-lm.git
+tiktoken
+blobfile
